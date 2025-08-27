@@ -1,0 +1,16 @@
+.
+├── backend
+│   ├── backend-server.js
+│   ├── package.json
+│   └── stripe-integration.js
+├── config
+│   └── database-init.sql
+├── docs
+│   ├── DELIVERABLES.md
+│   ├── README.md
+│   └── saas-sheets-architecture.md
+├── google-apps-script
+│   ├── google-apps-script-main.js
+│   └── sidebar.html
+└── README.md
+
