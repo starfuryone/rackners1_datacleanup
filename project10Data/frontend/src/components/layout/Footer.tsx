@@ -14,6 +14,7 @@ const footerNavigation = {
     { name: 'Contact', href: '/contact' },
   ],
   legal: [
+    { name: 'Legal Notice (EU)', href: '/legal-notice' },
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Terms of Service', href: '/legal' },
     { name: 'Cookie Policy', href: '/cookies' },

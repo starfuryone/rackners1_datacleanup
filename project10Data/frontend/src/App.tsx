@@ -41,6 +41,7 @@ import { CookiePage } from './pages/static/CookiePage'
 import { DPAPage } from './pages/static/DPAPage'
 import { SLAPage } from './pages/static/SLAPage'
 import { GDPRPage } from './pages/static/GDPRPage'
+import { LegalNoticePage } from './pages/static/LegalNoticePage'
 
 // Route guards
 import ProtectedRoute from './components/auth/ProtectedRoute'
@@ -83,6 +84,7 @@ function App() {
 
         {/* Static/Legal pages */}
         <Route path="/legal" element={<LegalPage />} />
+        <Route path="/legal-notice" element={<LegalNoticePage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/cookies" element={<CookiePage />} />
         <Route path="/dpa" element={<DPAPage />} />
