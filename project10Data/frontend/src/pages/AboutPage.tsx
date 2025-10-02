@@ -36,28 +36,6 @@ const platforms = [
 export default function AboutPage() {
   return (
     <div className="bg-white">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-primary-600 to-secondary-600">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link to="/" className="text-2xl font-bold text-white">
-              DataCleanup Pro
-            </Link>
-            <div className="flex gap-6">
-              <Link to="/" className="text-white hover:text-primary-100">
-                Home
-              </Link>
-              <Link to="/pricing" className="text-white hover:text-primary-100">
-                Pricing
-              </Link>
-              <Link to="/login" className="text-white hover:text-primary-100">
-                Login
-              </Link>
-            </div>
-          </div>
-        </nav>
-      </header>
-
       {/* Hero Section */}
       <div className="bg-gradient-to-b from-primary-50 to-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
