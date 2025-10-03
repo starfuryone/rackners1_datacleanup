@@ -14,12 +14,12 @@ import { VerifyEmailPage } from './pages/auth/VerifyEmailPage'
 import DashboardOverviewPage from './pages/dashboard/DashboardOverviewPage'
 import FileCleanupPage from './pages/dashboard/FileCleanupPage'
 import SQLGeneratorPage from './pages/dashboard/SQLGeneratorPage'
+import ChatPage from './pages/chat/ChatPage'
+import RegexPage from './pages/regex/RegexPage'
 import {
-  ChatPage,
   FormulasPage,
   PivotPage,
   ScriptsPage,
-  RegexPage,
   TemplatesPage,
   UsagePage,
   BillingPage,
