@@ -1,11 +1,19 @@
 """
 Logging Configuration
 Structured logging with JSON output for production
+
+Features:
+- Rotating file handlers to prevent log growth
+- JSON formatting for production with exception tracebacks
+- Human-readable formatting for development
+- Absolute/relative path support for log files
+- Request ID tracking for distributed tracing
 """
 
 import logging
 import sys
 from pathlib import Path
+from logging.handlers import RotatingFileHandler
 from typing import Any, Dict
 
 from pythonjsonlogger import jsonlogger
@@ -14,7 +22,18 @@ from app.core.config import settings
 
 
 class CustomJsonFormatter(jsonlogger.JsonFormatter):
-    """Custom JSON formatter with additional fields"""
+    """
+    Custom JSON formatter with structured exception tracebacks.
+
+    Adds fields:
+    - timestamp: ISO format timestamp
+    - level: Log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    - logger: Logger name
+    - environment: Application environment (dev, staging, production)
+    - request_id: Request ID (if available)
+    - user_id: User ID (if available)
+    - exception: Formatted exception traceback (if present)
+    """
 
     def add_fields(
         self,
@@ -31,70 +50,92 @@ class CustomJsonFormatter(jsonlogger.JsonFormatter):
         log_record["logger"] = record.name
         log_record["environment"] = settings.ENV
 
-        # Add extra fields if present
+        # Add context fields if present
         if hasattr(record, "request_id"):
             log_record["request_id"] = record.request_id
+        if hasattr(record, "user_id"):
+            log_record["user_id"] = record.user_id
+
+        # Add structured exception traceback
+        if record.exc_info:
+            log_record["exception"] = self.formatException(record.exc_info)
 
 
 def setup_logging() -> None:
-    """Setup application logging configuration"""
+    """
+    Setup application logging configuration.
+
+    Configures:
+    - Console handler (always enabled)
+    - Rotating file handler (if LOG_FILE configured)
+    - Rotating error file handler
+    - Third-party logger levels (uvicorn, sqlalchemy, celery)
+    """
 
     # Determine log level
     log_level = logging.DEBUG if settings.DEBUG else logging.INFO
 
     # Create logs directory
     log_dir = Path("logs")
-    log_dir.mkdir(exist_ok=True)
+    log_dir.mkdir(exist_ok=True, parents=True)
 
     # Root logger
     root_logger = logging.getLogger()
     root_logger.setLevel(log_level)
 
-    # Remove existing handlers
-    root_logger.handlers.clear()
+    # Remove existing handlers (safer than handlers.clear())
+    for handler in list(root_logger.handlers):
+        root_logger.removeHandler(handler)
+
+    # Create formatters once for reuse
+    json_formatter = CustomJsonFormatter(
+        "%(timestamp)s %(level)s %(logger)s %(message)s"
+    )
+    text_formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
+    )
+
+    # Select formatter based on environment
+    formatter = json_formatter if settings.ENV == "production" else text_formatter
 
     # Console handler (always enabled)
     console_handler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(log_level)
-
-    if settings.ENV == "production":
-        # JSON format for production
-        json_formatter = CustomJsonFormatter(
-            "%(timestamp)s %(level)s %(logger)s %(message)s"
-        )
-        console_handler.setFormatter(json_formatter)
-    else:
-        # Human-readable format for development
-        formatter = logging.Formatter(
-            "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S"
-        )
-        console_handler.setFormatter(formatter)
-
+    console_handler.setFormatter(formatter)
     root_logger.addHandler(console_handler)
 
-    # File handler (optional)
+    # Rotating file handler (optional, configured via LOG_FILE setting)
     if settings.LOG_FILE:
-        file_handler = logging.FileHandler(log_dir / settings.LOG_FILE)
+        # Handle both absolute and relative paths
+        log_path = Path(settings.LOG_FILE)
+        if not log_path.is_absolute():
+            log_path = log_dir / log_path
+
+        # Ensure parent directory exists
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Create rotating handler (10MB max, 5 backup files)
+        file_handler = RotatingFileHandler(
+            log_path,
+            maxBytes=10 * 1024 * 1024,  # 10 MB
+            backupCount=5,
+        )
         file_handler.setLevel(log_level)
-
-        if settings.ENV == "production":
-            file_handler.setFormatter(json_formatter)
-        else:
-            file_handler.setFormatter(formatter)
-
+        file_handler.setFormatter(formatter)
         root_logger.addHandler(file_handler)
 
-    # Error file handler
-    error_file = log_dir / "error.log"
-    error_handler = logging.FileHandler(error_file)
+    # Rotating error file handler (5MB max, 3 backup files)
+    error_log_path = log_dir / "error.log"
+    error_log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    error_handler = RotatingFileHandler(
+        error_log_path,
+        maxBytes=5 * 1024 * 1024,  # 5 MB
+        backupCount=3,
+    )
     error_handler.setLevel(logging.ERROR)
-
-    if settings.ENV == "production":
-        error_handler.setFormatter(json_formatter)
-    else:
-        error_handler.setFormatter(formatter)
-
+    error_handler.setFormatter(formatter)
     root_logger.addHandler(error_handler)
 
     # Configure third-party loggers
@@ -108,11 +149,12 @@ def setup_logging() -> None:
     # Log startup message
     logger = logging.getLogger(__name__)
     logger.info(
-        "Logging configured",
+        "✅ Logging configured successfully",
         extra={
             "level": logging.getLevelName(log_level),
             "environment": settings.ENV,
             "debug": settings.DEBUG,
+            "format": "json" if settings.ENV == "production" else "text",
         }
     )
 
