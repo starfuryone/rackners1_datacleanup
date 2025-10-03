@@ -9,6 +9,11 @@ import {
   ClockIcon,
   CheckCircleIcon,
   ArrowRightIcon,
+  CodeBracketIcon,
+  TableCellsIcon,
+  CommandLineIcon,
+  DocumentTextIcon,
+  ArrowPathIcon,
 } from '@heroicons/react/24/outline'
 
 const features = [
@@ -28,19 +33,49 @@ const features = [
     icon: ShieldCheckIcon,
   },
   {
-    name: 'Smart Insights',
-    description: 'Get detailed reports on data quality issues and cleaning recommendations.',
-    icon: ChartBarIcon,
-  },
-  {
-    name: 'Format Detection',
-    description: 'Automatically identifies and standardizes formats across your dataset.',
+    name: 'Excel/CSV Cleaning & Deduplication',
+    description: 'One-click cleanup for XLSX/CSV • Exact & fuzzy dedupe (by columns, cross-sheet/file, merge rules) • Standardize case/whitespace/Unicode, trim/split/merge columns • Fix data types, normalize dates, phones, emails, IDs • Remove empty rows/columns, detect headers, validate required fields',
     icon: DocumentCheckIcon,
   },
   {
-    name: 'Save Time',
-    description: 'Reduce manual data cleaning time by up to 95% with automated workflows.',
-    icon: ClockIcon,
+    name: 'General Cleanup & Analysis',
+    description: 'Auto error detection & correction • Summary stats, outlier spotting, quick insights',
+    icon: ChartBarIcon,
+  },
+  {
+    name: 'Pivot Tables (Pivot Builder AI Agent)',
+    description: 'Auto-build & modify pivots • Trend analysis without manual setup',
+    icon: TableCellsIcon,
+  },
+  {
+    name: 'Formulas',
+    description: 'Generate Excel/Sheets formulas instantly • Explain & optimize existing formulas',
+    icon: CodeBracketIcon,
+  },
+  {
+    name: 'Scripts & Automation',
+    description: 'Generate VBA (Excel) and Google Apps Scripts • Automate repetitive tasks with one click',
+    icon: CommandLineIcon,
+  },
+  {
+    name: 'SQL',
+    description: 'Generate & explain queries • Works across multiple database types',
+    icon: CommandLineIcon,
+  },
+  {
+    name: 'Regex Assistant',
+    description: 'Generate patterns, validate & filter text/data • Debug existing regex',
+    icon: DocumentTextIcon,
+  },
+  {
+    name: 'Template Generator',
+    description: 'Create reusable Excel/Sheets table templates • Standardize data entry structures',
+    icon: DocumentCheckIcon,
+  },
+  {
+    name: 'Import / Export & Workflow',
+    description: 'Import: CSV/XLSX/Google Sheets • Export: CSV/XLSX; downloadable reports • Preview & Undo (dry-run before apply) • Batch/Bulk processing for large files • Audit log of changes',
+    icon: ArrowPathIcon,
   },
 ]
 
@@ -158,19 +193,13 @@ export function HomePage() {
               <br /><br />
               <strong>Over 10,000 pros already upgraded. Why shouldn't you?</strong>
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <Link
                 to="/signup"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-lg text-white bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 transition-all shadow-lg hover:shadow-xl"
+                className="inline-flex items-center justify-center px-10 py-5 text-xl font-bold rounded-lg text-white bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                Start Free Trial
-                <ArrowRightIcon className="ml-2 h-5 w-5" />
-              </Link>
-              <Link
-                to="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-medium rounded-lg text-secondary-700 bg-white border-2 border-secondary-300 hover:border-primary-600 transition-all"
-              >
-                Watch Demo
+                Get Started Free
+                <ArrowRightIcon className="ml-2 h-6 w-6" />
               </Link>
             </div>
             <p className="mt-6 text-sm text-secondary-500">
