@@ -16,7 +16,9 @@ hiredis==2.3.2
 
 # Background Tasks
 celery==5.3.6
-flower==2.0.1
+celery[sqlalchemy]==5.3.6  # For database result backend
+kombu==5.3.5  # Message queue library (Celery dependency)
+flower==2.0.1  # Celery monitoring tool
 
 # Authentication & Security
 python-jose[cryptography]==3.3.0
