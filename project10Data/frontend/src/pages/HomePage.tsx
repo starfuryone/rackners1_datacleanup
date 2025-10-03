@@ -191,7 +191,7 @@ export function HomePage() {
             <p className="text-xl text-secondary-600 max-w-3xl mx-auto mb-8">
               AI that instantly cleans, corrects, and organizes your data. No stress. No wasted hours. Just clean, ready-to-roll spreadsheets.
               <br /><br />
-              <strong>Over 10,000 pros already upgraded. Why shouldn't you?</strong>
+              <strong>Thousands of pros quietly upgraded. Why shouldn't you?</strong>
             </p>
             <div className="flex justify-center">
               <Link
