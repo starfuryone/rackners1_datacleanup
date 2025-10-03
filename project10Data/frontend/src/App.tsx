@@ -82,6 +82,10 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/faq" element={<FAQPage />} />
 
+        {/* Public test routes (temporary - for demo) */}
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/regex" element={<RegexPage />} />
+
         {/* Static/Legal pages */}
         <Route path="/legal" element={<LegalPage />} />
         <Route path="/legal-notice" element={<LegalNoticePage />} />
