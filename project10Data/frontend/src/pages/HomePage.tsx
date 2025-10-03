@@ -74,44 +74,69 @@ const pricingPlans = [
     name: 'Free',
     price: '$0',
     period: 'forever',
+    description: 'Get started with essential features at no cost.',
     features: [
-      '5 files per month',
-      'Up to 1,000 rows per file',
-      'Basic cleaning features',
-      'Email support',
+      'Up to 10 AI Chat messages (reset every 30 days)',
+      '4 tool uses (refresh every 12 hours)',
+      'Upload size: 5MB/file (up to 5 files per chat)',
+      'Excel/CSV data cleaning & deduplication',
+      'Pivot Tables with AI — generate and modify pivots easily',
+      'Formula Assistant AI (Excel, Sheets, LibreOffice, Airtable)',
+      'Scripts for Automation (VBA & Google Apps Scripts)',
+      'SQL Query Assistant AI',
+      'Regex Assistant AI',
+      'Excel/Sheets Table Template Generator',
     ],
     cta: 'Start Free',
     highlighted: false,
   },
   {
-    name: 'Pro',
-    price: '$39',
-    period: 'per month',
+    name: 'Premium',
+    price: '$6.30',
+    originalPrice: '$9.00',
+    period: 'mo',
+    savings: 'Save 30%',
+    billingNote: 'billed annually',
+    annualTotal: 'Annual total: $75.60 (was $108.00)',
+    description: 'Essential AI tools for smarter Excel/CSV workflows and data analysis.',
     features: [
-      'Unlimited files',
-      'Up to 100,000 rows per file',
-      'Advanced AI cleaning',
-      'Priority support',
-      'API access',
-      'Custom rules',
+      'Up to 3,000 AI Chat messages (reset every 30 days)',
+      '3,000 tool uses (refresh every 30 days)',
+      'Upload size: 50MB/file (up to 10 files per chat)',
+      'Excel/CSV data cleaning & deduplication',
+      'Pivot Tables with AI — generate and modify pivots easily',
+      'Formula Assistant AI (Excel, Sheets, LibreOffice, Airtable)',
+      'Scripts for Automation (VBA & Google Apps Scripts)',
+      'SQL Query Assistant AI',
+      'Regex Assistant AI',
+      'Excel/Sheets Table Template Generator',
     ],
-    cta: 'Start Free Trial',
-    highlighted: true,
+    cta: 'Get Started',
+    highlighted: false,
   },
   {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'contact us',
+    name: 'Premium Plus',
+    price: '$12.60',
+    originalPrice: '$18.00',
+    period: 'mo',
+    savings: 'Save 30%',
+    billingNote: 'billed annually',
+    annualTotal: 'Annual total: $151.20 (was $216.00)',
+    description: 'Unlock full AI-powered Excel/CSV capabilities and advanced analysis.',
     features: [
-      'Unlimited everything',
-      'Dedicated account manager',
-      'SLA guarantee',
-      'Custom integrations',
-      'On-premise deployment',
-      'Training & onboarding',
+      'Up to 10,000 AI Chat messages (reset every 30 days)',
+      '10,000 tool uses (refresh every 30 days)',
+      'Upload size: 100MB/file (up to 15 files per chat)',
+      'Excel/CSV data cleaning & deduplication',
+      'Pivot Tables with AI — generate and modify pivots easily',
+      'Formula Assistant AI (Excel, Sheets, LibreOffice, Airtable)',
+      'Scripts for Automation (VBA & Google Apps Scripts)',
+      'SQL Query Assistant AI',
+      'Regex Assistant AI',
+      'Excel/Sheets Table Template Generator',
     ],
-    cta: 'Contact Sales',
-    highlighted: false,
+    cta: 'Upgrade to Premium Plus',
+    highlighted: true,
   },
 ]
 
@@ -318,11 +343,34 @@ export function HomePage() {
                 <h3 className="text-2xl font-bold text-secondary-900 mb-2">
                   {plan.name}
                 </h3>
-                <div className="mb-6">
-                  <span className="text-5xl font-bold text-secondary-900">
-                    {plan.price}
-                  </span>
-                  <span className="text-secondary-600 ml-2">/{plan.period}</span>
+                {plan.description && (
+                  <p className="text-sm text-secondary-600 mb-4">{plan.description}</p>
+                )}
+                <div className="mb-4">
+                  {plan.originalPrice && (
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xl text-secondary-400 line-through">
+                        {plan.originalPrice}
+                      </span>
+                      {plan.savings && (
+                        <span className="inline-block px-2 py-1 text-xs font-semibold text-success-700 bg-success-100 rounded">
+                          {plan.savings}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-5xl font-bold text-secondary-900">
+                      {plan.price}
+                    </span>
+                    {plan.period && <span className="text-secondary-600">/{plan.period}</span>}
+                  </div>
+                  {plan.billingNote && (
+                    <p className="text-sm text-secondary-500 mt-1">{plan.billingNote}</p>
+                  )}
+                  {plan.annualTotal && (
+                    <p className="text-sm text-secondary-600 mt-2 font-medium">{plan.annualTotal}</p>
+                  )}
                 </div>
                 <ul className="space-y-4 mb-8">
                   {plan.features.map((feature) => (
